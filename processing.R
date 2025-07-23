@@ -7,7 +7,7 @@ library(httr)
 library(jsonlite)
 library(openai)
 
-Sys.setenv(OPENAI_API_KEY = "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")
+Sys.setenv(OPENAI_API_KEY = "x")
 
 ####################################################################
 ## Initial processing of the ILO data 
