@@ -120,28 +120,7 @@ definition_augmented <- definition %>%
           t3 = ifelse(l3 == l2, "", t3),
           t2 = ifelse(l2 == l1, "", t2)) %>%
   # Concat text with titles and families
-  mutate (task_augmented = paste0(t1, ">", t2, ">", t3, ">", t4, "-", task)) 
+  mutate (task_augmented = paste0(t1, ">", t2, ">", t3, ">", t4, "-", task)) %>%
+  select (isco_08_code, task, task_augmented)
 
-# Prepare tasks
-tasks <- definition_augmented$task_augmented
-
-# Create embeddings
-tokens <- word_tokenizer(tolower(tasks))
-it <- itoken(tasks, tokenizer = word_tokenizer, progressbar = FALSE)
-
-# GloVe pre-trained embeddings (alternative: fastText or SBERT via Python)
-vocab <- create_vocabulary(it)
-vectorizer <- vocab_vectorizer(vocab)
-dtm <- create_dtm(it, vectorizer)
-
-# Dimensionality reduction
-dtm_reduced <- as.matrix(dtm)
-dtm_reduced <- dtm_reduced[, colSums(dtm_reduced) > 5]  # filter sparse terms
-
-# Cluster into ~400 groups
-set.seed(123)
-k <- 300
-clusters <- kmeans(dtm_reduced, centers = k, nstart = 20)
-
-# Add cluster ID back to dataframe
-definition$cluster_id <- clusters$cluster
+write.xlsx (definition_augmented, "Temp//ISCO task list augmented.xlsx")
