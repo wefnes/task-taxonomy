@@ -89,7 +89,10 @@ definition <- definition_l1 %>%
   rbind (definition_l2) %>%
   rbind (definition_l3) %>%
   rbind (definition_l4) %>%
-  arrange (isco_08_code) %>% drop_na (task)
+  arrange (isco_08_code) %>% drop_na (task) 
+
+task_for_clustering <- definition %>%
+  distinct (task)
 
 remove (definition_l1) 
 remove (definition_l2) 
