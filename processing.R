@@ -445,3 +445,7 @@ taxonomy_l2_final <- resolved_final %>%
 l2_distinct <- n_distinct(taxonomy_l2_final$l2_identifier)
 
 rm(list = setdiff(ls(), c("taxonomy_l2_final", "taxonomy_l1_final", "l1_distinct", "l2_distinct")))
+
+####################################################################
+# Task to level-3 after clustering and labelling work done on Python
+####################################################################
