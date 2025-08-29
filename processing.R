@@ -449,3 +449,13 @@ rm(list = setdiff(ls(), c("taxonomy_l2_final", "taxonomy_l1_final", "l1_distinct
 ####################################################################
 # Task to level-3 after clustering and labelling work done on Python
 ####################################################################
+
+l3_prep_taxonomy <- taxonomy_l2_final %>%
+  select    (l2_identifier, l2_label, l1_identifier, l1_label) %>%
+  left_join (taxonomy_l1_final, by = c("l1_identifier", "l1_label")) %>%
+  mutate    (isco_2digit = str_sub(isco_08_code, 1, 2)) %>%
+  group_by  (l2_identifier) %>%
+  summarise (l2_concat = paste0 (l2_label, " - ", 
+                                 str_c(unique(l1_label), collapse = "; "), 
+                                 " [", str_c(unique(isco_2digit), collapse = ", "), "]")) %>%
+  distinct ()
